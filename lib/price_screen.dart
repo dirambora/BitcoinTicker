@@ -67,9 +67,8 @@ class _PriceScreenState extends State<PriceScreen> {
                 print(selectedIndex);
               },
               children: [
-                Text('USD'),
-                Text('EUR'),
-                Text('GBP'),
+                Text('CUSD'),
+                Text('KSH'),
               ],
             ),
           ),
