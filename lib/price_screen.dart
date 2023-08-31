@@ -24,6 +24,15 @@ class _PriceScreenState extends State<PriceScreen> {
     return dropdownItems;
   }
 
+  List<Text> getPickerItems() {
+    List<Text> pickerItems = [];
+    for (String currencylist in currenciesList) {
+      pickerItems.add(Text(currencylist));
+    }
+
+    return pickerItems;
+  }
+
   @override
   Widget build(BuildContext context) {
     getDropdownItems();
@@ -66,12 +75,7 @@ class _PriceScreenState extends State<PriceScreen> {
               onSelectedItemChanged: (selectedIndex) {
                 print(selectedIndex);
               },
-              children: [
-                Text('CUSD'),
-                Text('KSH'),
-                Text('EUR'),
-                Text('BIRR'),
-              ],
+              children: getPickerItems(),
             ),
           ),
         ],
