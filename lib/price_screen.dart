@@ -66,12 +66,12 @@ class _PriceScreenState extends State<PriceScreen> {
             ),
           ),
           Container(
-            height: 150.0,
+            height: 170.0,
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
             child: CupertinoPicker(
-              itemExtent: 32.0,
+              itemExtent: 35.0,
               onSelectedItemChanged: (selectedIndex) {
                 print(selectedIndex);
               },
