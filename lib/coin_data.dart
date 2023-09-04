@@ -31,32 +31,41 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
+const coinAPIURL = 'https://rest.coinapi.io/v1/exchangerate';
 const apiKey = 'E66641F5-77C4-49B3-83E0-4E24C1BADC05';
-const coinsExchangeRate = 'https://rest.coinapi.io/v1/exchangerate/BTC/USD';
 
 class CoinData {
   //Create the asynchronous method getCoinData() that returns a Future(the price data)
   Future getCoinData(String selectedCurrency) async {
-    //create a url combining the coinAPIURL with the currencies we're interested, BTC to USD.
+    //Use a for loop through the cryptolist and request the data for each of them in turn.
+    //Return a Map of the results instead of a single value.
 
-    String requestURL = '&coinAPIURL/BTC/USD?apikey=&apiKey';
-    //make a GET request to the URL and wait for the response
-    http.Response response = await http.get(requestURL as Uri);
+    Map<String, String> cryptoPrices = {};
 
-    print(response);
+    for (String crypto in cryptoList) {
+      String requestURL =
+          '$coinAPIURL/$crypto/$selectedCurrency?apikey=$apiKey';
 
-    //check that the request was successful
-    if (response.statusCode == 200) {
-      var decodedData = jsonDecode(response.body);
+      Uri uri = Uri.parse(requestURL);
+      http.Response response = await http.get(uri);
+      //make a GET request to the URL and wait for the response
 
-      var lastPrice = decodedData['rate'];
-      return lastPrice;
-    } else {
-      //handle any errors that occur during the request
-      print(response.statusCode);
+      //check that the request was successful
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        double lastPrice = decodedData['rate'];
+        //create new key value pair, with the key being the crypto symbol and the value being the lastprice of that cryptocurrency.
 
-      //throw an error if the request fails
-      throw 'Problem with the get request';
+        cryptoPrices[crypto] = lastPrice.toStringAsFixed(0);
+      } else {
+        //handle any errors that occur during the request
+        print(response.statusCode);
+
+        //throw an error if the request fails
+        throw 'Problem with the get request';
+      }
     }
+
+    return cryptoPrices;
   }
 }
